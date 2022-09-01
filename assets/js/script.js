@@ -165,3 +165,38 @@ var extractForecast = (weekData) => {
       }
     }
   };
+
+  //Todo: Reset button clears everything
+var resetData = () => {
+    location.reload();
+  };
+  var resetBtn = document.getElementById('reset');
+  resetBtn.addEventListener('click', resetData);
+  
+  //Todo: History button clears the storage and reloads the application
+  var clearHistory = () => {
+    localStorage.clear();
+    location.reload();
+  };
+  
+  var clearHistoryBtn = document.getElementById('clear-history');
+  clearHistoryBtn.addEventListener('click', clearHistory);
+  var historyContainer = document.getElementById('history-searches');
+  var localObject = localStorage.getItem('searchTerms');
+  
+  if (localObject == null) {
+    var searchHistory = [];
+  } else {
+  
+    //Todo: Parse the local data and update the above empty object with the data from local
+    localObject = JSON.parse(localObject);
+    searchHistory = localObject;
+    searchHistory.forEach((item) => {
+      var btn = document.createElement('button');
+      btn.classList.add('search-btn');
+      btn.textContent = item.searchTerm;
+      btn.type = 'button';
+      historyContainer.appendChild(btn);
+    });
+    clearHistoryBtn.style.display = 'unset';
+  }
