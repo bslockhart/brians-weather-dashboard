@@ -130,3 +130,38 @@ var updateEl = (
     weatherIconEl.style.width = '40px';
     weatherIconEl.style.display = 'flex';
   };
+
+  //Todo: Update DOM elements for the 5 DAY FORECAST data
+var extractForecast = (weekData) => {
+    //Todo: For Loop
+    for (let i = 0; i < weekData.length; i++) {
+      if (i !== 0) {
+        var new_date = moment(moment(), 'L').add(i, 'days').format('L'); 
+        var weatherEl = document.getElementById(`day${i}-weather`);
+        var windEl = document.getElementById(`day${i}-wind`);
+        var humidityEl = document.getElementById(`day${i}-humidity`);
+        var dateEl = document.getElementById(`forecast-date${i}`);
+        var weatherIconEl = document.getElementById(`weather-icon-day${i}`);
+  
+        //Todo: New date for each day
+        dateEl.textContent = new_date;
+  
+        var extractedIcon = weekData[i].weather[0].icon; 
+        var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`; 
+        weatherIconEl.src = iconUrl;
+        weatherIconEl.style.display = 'flex';
+        weatherIconEl.style.height = '40px';
+        weatherIconEl.style.width = '40px';
+  
+        //Todo: Add weather, wind, and humidity to the appropriate elements
+        weatherEl.textContent = `${weekData[i].temp.max}/${weekData[i].temp.min}°F`;
+        windEl.textContent = `${weekData[i].wind_speed}mph`;
+        humidityEl.textContent = `${weekData[i].humidity}%`;
+      }
+  
+      //Todo: Break the for loop at 5 iterations
+      if (i == 5) {
+        break;
+      }
+    }
+  };
