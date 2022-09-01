@@ -200,3 +200,31 @@ var resetData = () => {
     });
     clearHistoryBtn.style.display = 'unset';
   }
+
+  //Todo: Function to check the buttons and ONLY generate the unique history buttons
+var checkHistoryBtns = (label) => {
+    var uniqueButton = true;
+  
+    var finalLabel = label[0].toUpperCase() + label.substring(1);
+  
+    //Todo: If the object length is 0
+    if (searchHistory.length == 0) {
+      clearHistoryBtn.style.display = 'unset';
+      createButtons(finalLabel);
+      storeLocally(searchHistory, finalLabel);
+      uniqueButton = false;
+      historyBtnEvent();
+    } else {
+      searchHistory.forEach((item) => {
+        if (item.searchTerm == finalLabel) {
+          uniqueButton = false;
+        }
+      });
+    }
+  
+    if (uniqueButton) {
+      createButtons(finalLabel);
+      storeLocally(searchHistory, finalLabel);
+      historyBtnEvent();
+    }
+  };
