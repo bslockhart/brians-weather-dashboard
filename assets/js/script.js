@@ -23,3 +23,34 @@ var extractGeoData = async (searchedCity) => {
     alert('Failed to connect to API due to network issues');
   }
 };
+
+//Todo: Extract the MAIN weather data
+var fetchWeather = async (lat, lon, location) => {
+    var url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
+    var res = await fetch(url);
+    var weatherData = await res.json();
+    extractedData(weatherData, location);
+  };
+  
+  //Todo: Declare variables to hold required values
+  var extractedData = (weatherData, location) => {
+    var feelsLike = weatherData.current.feels_like;
+    var currentWeather = weatherData.current.temp;
+    var humidity = weatherData.current.humidity;
+    var windSpeed = weatherData.current.wind_speed;
+    var uvIndex = weatherData.current.uvi;
+  
+    //Todo: Weather Icon display
+    var extractedIcon = weatherData.current.weather[0].icon;
+    var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`;
+  
+    //Todo: Update DOM elements using the above data
+    updateEl(
+      currentWeather,
+      feelsLike,
+      location,
+      humidity,
+      windSpeed,
+      uvIndex,
+      iconUrl
+    );
