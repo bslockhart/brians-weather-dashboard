@@ -54,3 +54,79 @@ var fetchWeather = async (lat, lon, location) => {
       uvIndex,
       iconUrl
     );
+
+      //Todo: The daily object contains the weather data for other days
+  var forecastWeek = weatherData.daily;
+  extractForecast(forecastWeek);
+};
+
+//Todo: Update DOM elements (textcontent) for the CURRENT DAY weather data
+var updateEl = (
+    currentWeather,
+    feelsLike,
+    location,
+    humidity,
+    windSpeed,
+    uvIndex,
+    iconUrl
+  ) => {
+    //Todo: Declare variables for HTML
+    var citynameEl = document.getElementById('city-name');
+    var currentWeatherEl = document.getElementById('current-weather');
+    var feelslikeEl = document.getElementById('feels-like');
+    var humidityEl = document.getElementById('humidity');
+    var windspeedEl = document.getElementById('wind');
+    var uvIndexEl = document.getElementById('uv-index');
+    var weatherIconEl = document.getElementById('weather-icon');
+  
+    //Todo: Show the main data elements
+    var currentTemp = document.getElementById('current-temp');
+    var fiveDayForecastEl = document.getElementById('five-day-forecast');
+  
+    currentTemp.style.display = 'flex';
+    resetBtn.style.display = 'unset';
+    fiveDayForecastEl.style.display = 'unset';
+  
+    if (uvIndexEl <= 4) {
+      uvIndexEl.style.color = 'black';
+    }
+    if (uvIndex >= 4) {
+      uvIndexEl.style.color = 'white';
+    }
+    if (uvIndex <= 1) {
+      uvIndexEl.style.backgroundColor = 'rgb(0, 255, 13)';
+    } else if (uvIndex > 1 && uvIndex < 2) {
+      uvIndexEl.style.backgroundColor = 'rgb(151, 221, 0)';
+    } else if (uvIndex >= 2 && uvIndex <= 3) {
+      uvIndexEl.style.backgroundColor = 'rgb(214, 221, 0)';
+    } else if (uvIndex >= 3 && uvIndex <= 4) {
+      uvIndexEl.style.backgroundColor = 'rgb(221, 173, 0)';
+    } else if (uvIndex >= 4 && uvIndex <= 5) {
+      uvIndexEl.style.backgroundColor = 'rgb(221, 136, 0)';
+    } else if (uvIndex >= 5 && uvIndex <= 6) {
+      uvIndexEl.style.backgroundColor = 'rgb(221, 92, 0)';
+    } else if (uvIndex >= 6 && uvIndex <= 7) {
+      uvIndexEl.style.backgroundColor = 'rgb(221, 0, 0)';
+    } else if (uvIndex >= 7 && uvIndex <= 8) {
+      uvIndexEl.style.backgroundColor = 'rgb(221, 0, 136)';
+    } else if (uvIndex >= 8 && uvIndex <= 9) {
+      uvIndexEl.style.backgroundColor = 'rgb(221, 0, 192)';
+    } else if (uvIndex >= 9) {
+      uvIndexEl.style.backgroundColor = 'rgb(199, 0, 221)';
+    }
+  
+    //Todo: Variable to hold the current date "MM/DD/YYYY"
+    var date = moment().format('(L)'); 
+  
+    //Todo: Apply extracted data to the appropriate elements
+    citynameEl.textContent = `${location} ${date}`;
+    currentWeatherEl.textContent = `${currentWeather}°F`;
+    feelslikeEl.textContent = `${feelsLike}°F`;
+    windspeedEl.textContent = `${windSpeed}mph`;
+    humidityEl.textContent = `${humidity}%`;
+    uvIndexEl.textContent = uvIndex;
+    weatherIconEl.src = iconUrl;
+    weatherIconEl.style.height = '40px';
+    weatherIconEl.style.width = '40px';
+    weatherIconEl.style.display = 'flex';
+  };
