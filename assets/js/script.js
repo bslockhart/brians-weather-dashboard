@@ -1,5 +1,4 @@
 //Todo: Add API key from Open Weather Map
-
 var APIKEY = '60729b3ac3b4a0272d0eff20d53db5a2';
 window.location.href = 'https://bslockhart.github.io/Weather-Dashboard-Outlook/?#';
 
