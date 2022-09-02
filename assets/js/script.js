@@ -4,7 +4,7 @@ window.location.href = 'https://bslockhart.github.io/Weather-Dashboard-Outlook/?
 
 var extractGeoData = async (searchedCity) => {
   try {
-    var url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=5&appid=${APIKEY}`;
+    var url = `http://api.openweathermap.org/geo/2.5/direct?q=${searchedCity}&limit=5&appid=${APIKEY}`;
     var res = await fetch(url);
     var location = await res.json();
     if (location.length == 0 || location == null || location == undefined) {
