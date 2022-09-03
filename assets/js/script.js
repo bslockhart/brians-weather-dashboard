@@ -1,10 +1,10 @@
 //Todo: Add API key from Open Weather Map
-var APIKEY = 'ddb9927419b27dc56e975076a3755252';
-window.location.href = 'http://bslockhart.github.io/Weather-Dashboard-Outlook/?#';
+var APIKEY = '258b805a6142be590d3b5a857e93e071';
+window.location.href = 'https://bslockhart.github.io/Weather-Dashboard-Outlook/';
 
 var extractGeoData = async (searchedCity) => {
   try {
-    var url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=5&appid=${APIKEY}`;
+    var url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit={5}&appid=${APIKEY}`;
     var res =  fetch(url);
     var location = await res.json();
     if (location.length == 0 || location == null || location == undefined) {
@@ -19,7 +19,7 @@ var extractGeoData = async (searchedCity) => {
 };
 
 var fetchWeather = async (lat, lon, location) => {
-  var url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
+  var url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
   var res = await fetch(url);
   var weatherData = await res.json();
   extractedData(weatherData, location);
