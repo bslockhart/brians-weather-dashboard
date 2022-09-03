@@ -12,7 +12,6 @@ var extractGeoData = async (searchedCity) => {
       checkHistoryBtns(searchedCity);
       fetchWeather(location[0].lat, location[0].lon, location[0].name);
     }
-    debugger;
   } catch (error) {
     alert('Failed to connect to API due to network issues');
   }
