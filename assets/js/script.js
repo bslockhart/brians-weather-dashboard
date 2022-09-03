@@ -1,6 +1,6 @@
 //Todo: Add API key from Open Weather Map
 var APIKEY = '258b805a6142be590d3b5a857e93e071';
-window.location.href = 'https://bslockhart.github.io/weather-dashboard-outlook//?#';
+window.location.href = 'https://bslockhart.github.io/brians-weather-dashboard/?#';
 
 var extractGeoData = async (searchedCity) => {
   try {
@@ -119,7 +119,7 @@ var updateEl = (
 var extractForecast = (weekData) => {
   for (let i = 0; i < weekData.length; i++) {
     if (i !== 0) {
-      var new_date = moment(moment(), 'L').add(i, 'days').format('L'); // Increment the 
+      var new_date = moment(moment(), 'L').add(i, 'days').format('L'); 
       var weatherEl = document.getElementById(`day${i}-weather`);
       var windEl = document.getElementById(`day${i}-wind`);
       var humidityEl = document.getElementById(`day${i}-humidity`);
