@@ -1,11 +1,11 @@
 //Todo: Add API key from Open Weather Map
-var APIKEY = 'fd83c558f55eeae83aa2c88fd0934459';
-window.location.href = 'https://bslockhart.github.io/Weather-Dashboard-Outlook/?#';
+var APIKEY = 'ddb9927419b27dc56e975076a3755252';
+window.location.href = 'http://bslockhart.github.io/Weather-Dashboard-Outlook/?#';
 
 var extractGeoData = async (searchedCity) => {
   try {
-    var url = `http://api.openweathermap.org/geo/2.5/direct?q=${searchedCity}&limit=5&appid=${APIKEY}`;
-    var res = await fetch(url);
+    var url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=5&appid=${APIKEY}`;
+    var res =  fetch(url);
     var location = await res.json();
     if (location.length == 0 || location == null || location == undefined) {
       alert('Please type a valid city');
@@ -19,7 +19,7 @@ var extractGeoData = async (searchedCity) => {
 };
 
 var fetchWeather = async (lat, lon, location) => {
-  var url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
+  var url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
   var res = await fetch(url);
   var weatherData = await res.json();
   extractedData(weatherData, location);
@@ -34,6 +34,7 @@ var extractedData = (weatherData, location) => {
 
   var extractedIcon = weatherData.current.weather[0].icon;
   var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`;
+  
 
   updateEl(
     currentWeather,
@@ -101,12 +102,14 @@ var updateEl = (
   }
 
   var date = moment().format('(L)'); 
+
   citynameEl.textContent = `${location} ${date}`;
   currentWeatherEl.textContent = `${currentWeather}°F`;
   feelslikeEl.textContent = `${feelsLike}°F`;
   windspeedEl.textContent = `${windSpeed}mph`;
   humidityEl.textContent = `${humidity}%`;
   uvIndexEl.textContent = uvIndex;
+
   weatherIconEl.src = iconUrl;
   weatherIconEl.style.height = '40px';
   weatherIconEl.style.width = '40px';
@@ -116,7 +119,7 @@ var updateEl = (
 var extractForecast = (weekData) => {
   for (let i = 0; i < weekData.length; i++) {
     if (i !== 0) {
-      var new_date = moment(moment(), 'L').add(i, 'days').format('L'); 
+      var new_date = moment(moment(), 'L').add(i, 'days').format('L'); // Increment the 
       var weatherEl = document.getElementById(`day${i}-weather`);
       var windEl = document.getElementById(`day${i}-wind`);
       var humidityEl = document.getElementById(`day${i}-humidity`);
@@ -124,12 +127,14 @@ var extractForecast = (weekData) => {
       var weatherIconEl = document.getElementById(`weather-icon-day${i}`);
 
       dateEl.textContent = new_date;
-      var extractedIcon = weekData[i].weather[0].icon;
-      var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`; 
+
+      var extractedIcon = weekData[i].weather[0].icon; 
+      var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`;
       weatherIconEl.src = iconUrl; 
-      weatherIconEl.style.display = 'flex'; 
+      weatherIconEl.style.display = 'flex';
       weatherIconEl.style.height = '40px';
       weatherIconEl.style.width = '40px';
+
       weatherEl.textContent = `${weekData[i].temp.max}/${weekData[i].temp.min}°F`;
       windEl.textContent = `${weekData[i].wind_speed}mph`;
       humidityEl.textContent = `${weekData[i].humidity}%`;
@@ -154,9 +159,10 @@ var clearHistory = () => {
 
 var clearHistoryBtn = document.getElementById('clear-history');
 clearHistoryBtn.addEventListener('click', clearHistory);
-var historyContainer = document.getElementById('history-searches');
-var localObject = localStorage.getItem('searchTerms');
 
+var historyContainer = document.getElementById('history-searches');
+
+var localObject = localStorage.getItem('searchTerms');
 if (localObject == null) {
   var searchHistory = [];
 } else {
@@ -178,6 +184,7 @@ var checkHistoryBtns = (label) => {
 
   if (searchHistory.length == 0) {
     clearHistoryBtn.style.display = 'unset';
+
     createButtons(finalLabel);
     storeLocally(searchHistory, finalLabel);
     uniqueButton = false;
@@ -208,24 +215,26 @@ var createButtons = (finalLabel) => {
 var storeLocally = (object, label) => {
   var id = Math.floor(Math.random() * 10000);
   searchHistory.push({ searchTerm: label, id });
-
   localStorage.setItem('searchTerms', JSON.stringify(object));
 };
 
 const historyBtnEvent = () => {
   var historyBtns = document.getElementById('history-searches');
+
   Array.prototype.forEach.call(historyBtns.children, (child) => {
     child.addEventListener('click', () => {
       extractGeoData(child.innerText.toLowerCase());
     });
   });
 };
+
 historyBtnEvent();
 
 var switchMetric = () => {
   var currentWeatherEl = document.getElementById('current-weather');
   var feelslikeEl = document.getElementById('feels-like');
   var windspeedEl = document.getElementById('wind');
+
   if (windspeedEl.textContent.includes('mph')) {
     var activeWind = windspeedEl.innerText.split('mph')[0];
     var newWind = activeWind * 1.609344;
@@ -240,6 +249,7 @@ var switchMetric = () => {
     currentWeatherEl.textContent.includes('°F') &&
     feelslikeEl.textContent.includes('°F')
   ) {
+
     var feelslikeCurrent = feelslikeEl.innerText.split('°F')[0];
     var newFeelsLike = ((feelslikeCurrent - 32) * 5) / 9;
     feelslikeEl.textContent = `${newFeelsLike.toFixed(2)}°C`;
@@ -250,6 +260,7 @@ var switchMetric = () => {
     var feelslikeCurrent = feelslikeEl.innerText.split('°C')[0];
     var newFeelsLike = (feelslikeCurrent * 9) / 5 + 32;
     feelslikeEl.textContent = `${newFeelsLike.toFixed(2)}°F`;
+
     var activeCurrentWeather = currentWeatherEl.innerText.split('°C')[0];
     var newCurrentWeather = (activeCurrentWeather * 9) / 5 + 32;
     currentWeatherEl.textContent = `${newCurrentWeather.toFixed(2)}°F`;
@@ -286,6 +297,7 @@ var switchMetric = () => {
       forecastWindEl[i].textContent = `${newForecastWind.toFixed(2)}kmh`;
     } else {
       var currentForecastWind = forecastWindEl[i].innerText.split('kmh')[0];
+
       var newForecastWind = currentForecastWind / 1.609344;
       forecastWindEl[i].textContent = `${newForecastWind.toFixed(2)}mph`;
     }
@@ -294,6 +306,7 @@ var switchMetric = () => {
 
 var metricBtn = document.getElementById('switch-metric');
 metricBtn.addEventListener('click', switchMetric);
+
 var inputEl = document.getElementById('enter-city');
 var formEl = document.getElementById('main-form');
 
