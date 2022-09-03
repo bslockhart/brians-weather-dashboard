@@ -1,6 +1,6 @@
 //Todo: Add API key from Open Weather Map
 var APIKEY = '258b805a6142be590d3b5a857e93e071';
-window.location.href = 'https://bslockhart.github.io/brians-weather-dashboard/?#';
+window.location.href = 'https://bslockhart.github.io/brians-weather-dashboard/';
 
 var extractGeoData = async (searchedCity) => {
   try {
