@@ -1,4 +1,3 @@
-/* Root properties */
 * {
   padding: 0;
   margin: 0;
@@ -16,7 +15,6 @@ main {
 }
 
 img {
-  /* For the weather icons */
   display: none;
 }
 
@@ -26,8 +24,6 @@ img {
     align-items: center;
   }
 }
-
-/* Header */
 
 header {
   display: flex;
@@ -53,7 +49,6 @@ header {
     width: 310px;
   }
 }
-/* Form */
 
 form {
   width: 240px;
@@ -224,7 +219,7 @@ form hr {
     width: 310px;
   }
 }
-/* Current weather - Main data section */
+
 #switch-metric {
   margin-top: 10px;
   width: 140px;
@@ -286,8 +281,6 @@ form hr {
     width: 298px;
   }
 }
-
-/* Five day forecast - Main data section */
 
 #five-day-forecast {
   display: none;

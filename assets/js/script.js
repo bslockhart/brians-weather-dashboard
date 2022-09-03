@@ -1,11 +1,10 @@
-//Todo: Add API key from Open Weather Map
-var APIKEY = '258b805a6142be590d3b5a857e93e071';
-window.location.href = 'https://bslockhart.github.io/brians-weather-dashboard/';
+var APIKEY = 'c35a914f185469538a82375de477d0a7';
+window.location.href = 'https://bslockhart.github.io/brians-weather-dashboard/?#';
 
 var extractGeoData = async (searchedCity) => {
   try {
-    var url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit={5}&appid=${APIKEY}`;
-    var res =  fetch(url);
+    var url = `https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=5&appid=${APIKEY}`;
+    var res = await fetch(url);
     var location = await res.json();
     if (location.length == 0 || location == null || location == undefined) {
       alert('Please type a valid city');
@@ -13,14 +12,16 @@ var extractGeoData = async (searchedCity) => {
       checkHistoryBtns(searchedCity);
       fetchWeather(location[0].lat, location[0].lon, location[0].name);
     }
+    debugger;
   } catch (error) {
     alert('Failed to connect to API due to network issues');
   }
 };
 
 var fetchWeather = async (lat, lon, location) => {
-  var url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
+  var url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIKEY}&units=imperial`;
   var res = await fetch(url);
+
   var weatherData = await res.json();
   extractedData(weatherData, location);
 };
@@ -33,8 +34,7 @@ var extractedData = (weatherData, location) => {
   var uvIndex = weatherData.current.uvi;
 
   var extractedIcon = weatherData.current.weather[0].icon;
-  var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`;
-  
+  var iconUrl = `https://openweathermap.org/img/wn/${extractedIcon}@2x.png`;
 
   updateEl(
     currentWeather,
@@ -59,6 +59,7 @@ var updateEl = (
   uvIndex,
   iconUrl
 ) => {
+
   var citynameEl = document.getElementById('city-name');
   var currentWeatherEl = document.getElementById('current-weather');
   var feelslikeEl = document.getElementById('feels-like');
@@ -66,6 +67,8 @@ var updateEl = (
   var windspeedEl = document.getElementById('wind');
   var uvIndexEl = document.getElementById('uv-index');
   var weatherIconEl = document.getElementById('weather-icon');
+
+
   var currentTemp = document.getElementById('current-temp');
   var fiveDayForecastEl = document.getElementById('five-day-forecast');
 
@@ -101,8 +104,10 @@ var updateEl = (
     uvIndexEl.style.backgroundColor = 'rgb(199, 0, 221)';
   }
 
+
   var date = moment().format('(L)'); 
 
+  
   citynameEl.textContent = `${location} ${date}`;
   currentWeatherEl.textContent = `${currentWeather}°F`;
   feelslikeEl.textContent = `${feelsLike}°F`;
@@ -115,6 +120,7 @@ var updateEl = (
   weatherIconEl.style.width = '40px';
   weatherIconEl.style.display = 'flex';
 };
+
 
 var extractForecast = (weekData) => {
   for (let i = 0; i < weekData.length; i++) {
@@ -129,28 +135,32 @@ var extractForecast = (weekData) => {
       dateEl.textContent = new_date;
 
       var extractedIcon = weekData[i].weather[0].icon; 
-      var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`;
+      var iconUrl = `http://openweathermap.org/img/wn/${extractedIcon}@2x.png`; 
       weatherIconEl.src = iconUrl; 
-      weatherIconEl.style.display = 'flex';
+      weatherIconEl.style.display = 'flex'; 
       weatherIconEl.style.height = '40px';
       weatherIconEl.style.width = '40px';
 
+     
       weatherEl.textContent = `${weekData[i].temp.max}/${weekData[i].temp.min}°F`;
       windEl.textContent = `${weekData[i].wind_speed}mph`;
       humidityEl.textContent = `${weekData[i].humidity}%`;
     }
 
+    
     if (i == 5) {
       break;
     }
   }
 };
 
+
 var resetData = () => {
   location.reload();
 };
 var resetBtn = document.getElementById('reset');
 resetBtn.addEventListener('click', resetData);
+
 
 var clearHistory = () => {
   localStorage.clear();
@@ -161,6 +171,7 @@ var clearHistoryBtn = document.getElementById('clear-history');
 clearHistoryBtn.addEventListener('click', clearHistory);
 
 var historyContainer = document.getElementById('history-searches');
+
 
 var localObject = localStorage.getItem('searchTerms');
 if (localObject == null) {
@@ -181,10 +192,8 @@ if (localObject == null) {
 var checkHistoryBtns = (label) => {
   var uniqueButton = true;
   var finalLabel = label[0].toUpperCase() + label.substring(1);
-
   if (searchHistory.length == 0) {
     clearHistoryBtn.style.display = 'unset';
-
     createButtons(finalLabel);
     storeLocally(searchHistory, finalLabel);
     uniqueButton = false;
@@ -235,6 +244,7 @@ var switchMetric = () => {
   var feelslikeEl = document.getElementById('feels-like');
   var windspeedEl = document.getElementById('wind');
 
+
   if (windspeedEl.textContent.includes('mph')) {
     var activeWind = windspeedEl.innerText.split('mph')[0];
     var newWind = activeWind * 1.609344;
@@ -249,10 +259,10 @@ var switchMetric = () => {
     currentWeatherEl.textContent.includes('°F') &&
     feelslikeEl.textContent.includes('°F')
   ) {
-
     var feelslikeCurrent = feelslikeEl.innerText.split('°F')[0];
     var newFeelsLike = ((feelslikeCurrent - 32) * 5) / 9;
     feelslikeEl.textContent = `${newFeelsLike.toFixed(2)}°C`;
+
     var activeCurrentWeather = currentWeatherEl.innerText.split('°F')[0];
     var newCurrentWeather = ((activeCurrentWeather - 32) * 5) / 9;
     currentWeatherEl.textContent = `${newCurrentWeather.toFixed(2)}°C`;
@@ -297,7 +307,6 @@ var switchMetric = () => {
       forecastWindEl[i].textContent = `${newForecastWind.toFixed(2)}kmh`;
     } else {
       var currentForecastWind = forecastWindEl[i].innerText.split('kmh')[0];
-
       var newForecastWind = currentForecastWind / 1.609344;
       forecastWindEl[i].textContent = `${newForecastWind.toFixed(2)}mph`;
     }
@@ -313,7 +322,7 @@ var formEl = document.getElementById('main-form');
 formEl.addEventListener('submit', (e) => {
   e.preventDefault; 
   if (inputEl.value) {
-    extractGeoData(inputEl.value.toLowerCase()); 
+    extractGeoData(inputEl.value.toLowerCase());
   } else {
     alert('Please enter a city');
   }
