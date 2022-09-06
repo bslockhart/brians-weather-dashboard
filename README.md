@@ -88,6 +88,6 @@ The following image shows the web application's appearance:
 * Repository contains quality readme with description, screenshot, link to deployed application.
 
 ### Submission
-* Date Submitted: September 6, 2022
+* Date Submitted: September 6, 2022.
 * The URL of the deployed application: https://bslockhart.github.io/brians-weather-dashboard/
-* The URL of the GitHub repository that contains your code: https://github.com/bslockhart/Weather-Dashboard-Outlook
+* The URL of the GitHub repository that contains your code: https://github.com/bslockhart/brians-weather-dashboard
